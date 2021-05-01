@@ -6,6 +6,9 @@ fi
 
 if [[ ! -f $done_file ]]; then
   CURR_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+  if [[ ! -d $CURR_DIR/home ]]; then
+    `mkdir $CURR_DIR/home`
+  fi
   cd $CURR_DIR/home
 
   `curl -fLo yadm https://github.com/TheLocehiliosan/yadm/raw/master/yadm && chmod a+x yadm`
