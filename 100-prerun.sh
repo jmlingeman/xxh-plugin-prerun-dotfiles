@@ -6,12 +6,37 @@ fi
 
 if [[ ! -f $done_file ]]; then
   CURR_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-  if [[ ! -d $CURR_DIR/home ]]; then
-    `mkdir $CURR_DIR/home`
-  fi
   cd $CURR_DIR/home
 
+  echo $CURR_DIR
+
   `curl -fLo yadm https://github.com/TheLocehiliosan/yadm/raw/master/yadm && chmod a+x yadm`
-  `./yadm clone https://github.com/jmlingeman/dotfiles.git`
+  `./yadm -Y $CURR_DIR/home clone https://github.com/jmlingeman/dotfiles.git`
+
+  for item in $(shopt -s dotglob && cd $CURR_DIR/home && find *); do
+
+    item_basedir=`echo $item | cut -d "/" -f1`
+    target_item=$XXH_HOME/$item
+    target_dir=`dirname $target_item`
+    if [[ $item_basedir == '.config' && $XDG_CONFIG_HOME ]]; then
+      target_dir=`dirname $XDG_CONFIG_HOME`
+      target_item=$target_dir/$item
+    fi
+
+    if [[ -f $item && ! -f $target_item ]]; then
+      if [[ $XXH_VERBOSE == '1' || $XXH_VERBOSE == '2' ]]; then
+        echo "xxh-plugin-prerun-dotfiles: Create file $target_item"
+      fi
+      mkdir -p $target_dir
+      cp $item $target_item
+    elif [[ -d $item && ! -d $target_item ]]; then
+      if [[ $XXH_VERBOSE == '1' || $XXH_VERBOSE == '2' ]]; then
+        echo "xxh-plugin-prerun-dotfiles: Create dir $target_item"
+      fi
+      mkdir -p $target_item
+    fi
+  done
+  mkdir -p `dirname $done_file`
+  echo 'done' > $done_file
 fi
 cd $XXH_HOME
