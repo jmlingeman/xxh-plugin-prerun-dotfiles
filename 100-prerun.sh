@@ -12,6 +12,7 @@ if [[ ! -f $done_file ]]; then
 
   `curl -fLo yadm https://github.com/TheLocehiliosan/yadm/raw/master/yadm && chmod a+x yadm`
   `./yadm -Y $CURR_DIR/home clone https://github.com/jmlingeman/dotfiles.git`
+  `xpip install xonsh-apt-tabcomplete xonsh-autoxsh xontrib-avox xonsh-docker-tabcomplete xontrib-fzf-widgets xontrib-hist-navigator xontrib-histcpy xontrib-output-search xontrib-pipeliner xontrib-prompt-bar xontrib-pyenv xontrib-readable-traceback xontrib-ssh-agent xontrib-z`
 
   for item in $(shopt -s dotglob && cd $CURR_DIR/home && find *); do
 
