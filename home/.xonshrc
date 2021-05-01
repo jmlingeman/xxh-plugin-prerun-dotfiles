@@ -1,3 +1,13 @@
-#
-# Try awesome xonshrc - https://github.com/anki-code/awesome-xonshrc/blob/main/xonshrc
-#
+xontrib load abbrevs apt_tabcomplete autovox autoxsh avox bashisms coreutils distributed docker_tabcomplete fzf-widgets hist_navigator histcpy jedi mpl output_search pipeliner prompt_bar pyenv readable-traceback ssh_agent whole_word_jumping z
+
+
+# XONSH WEBCONFIG START
+$XONSH_COLOR_STYLE = 'native'
+# XONSH WEBCONFIG END
+
+$PATH += ["/usr/local/bin", "/usr/local/anaconda3/bin"]
+
+$PROJECT_DIRS = ["~/git-repos"]
+
+
+execx($(zoxide init xonsh), 'exec', __xonsh__.ctx, filename='zoxide')
